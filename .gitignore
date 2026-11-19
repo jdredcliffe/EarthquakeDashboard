@@ -21,5 +21,7 @@ CMakeLists.txt.user*
 **/.qmlls.ini
 /build*/
 /.qtcreator/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/

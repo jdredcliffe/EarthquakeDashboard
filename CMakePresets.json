@@ -1,0 +1,33 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "macos-debug",
+            "displayName": "Qt 6.11.1 macOS Debug",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/vscode-macos-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_PREFIX_PATH": "$env{HOME}/Qt/6.11.1/macos",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "macos-debug",
+            "displayName": "Qt 6.11.1 macOS Debug",
+            "configurePreset": "macos-debug"
+        }
+    ]
+}

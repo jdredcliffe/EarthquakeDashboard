@@ -1,0 +1,6 @@
+{
+    "cmake.cmakePath": "${userHome}/Qt/Tools/CMake/CMake.app/Contents/bin/cmake",
+    "cmake.useCMakePresets": "always",
+    "cmake.configureOnOpen": true,
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/vscode-macos-debug/compile_commands.json"
+}
