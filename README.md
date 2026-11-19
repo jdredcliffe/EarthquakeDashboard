@@ -2,7 +2,7 @@
 
 A Qt/QML dashboard that fetches recent earthquakes from the USGS Earthquake API (REST, JSON), processes the data in C++ and presents it in QML.
 
-Individual assignment, Project 2 – REST API, Fagskolen Viken.
+Individual assignment, Project 2 – REST API.
 
 ## Requirements
 
