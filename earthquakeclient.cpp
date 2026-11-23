@@ -1,7 +1,8 @@
 #include "earthquakeclient.h"
 
 #include <QDateTime>
-#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
@@ -41,8 +42,39 @@ void EarthquakeClient::handleReply(QNetworkReply *reply)
         return;
     }
 
-    QByteArray data = reply->readAll();
-    qDebug() << "Received" << data.size() << "bytes from USGS";
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+    if (!document.isObject() || !document.object().value("features").isArray()) {
+        emit requestFailed("Invalid response from the API");
+        return;
+    }
 
-    emit earthquakesReceived(QList<Earthquake>());
+    QJsonArray features = document.object().value("features").toArray();
+    emit earthquakesReceived(parse(features));
+}
+
+QList<Earthquake> EarthquakeClient::parse(const QJsonArray &features)
+{
+    QList<Earthquake> earthquakes;
+
+    for (const QJsonValue &value : features) {
+        QJsonObject feature = value.toObject();
+        QJsonObject properties = feature.value("properties").toObject();
+        QJsonArray coordinates = feature.value("geometry").toObject().value("coordinates").toArray();
+
+        Earthquake earthquake;
+        earthquake.place = properties.value("place").toString("Unknown place");
+        earthquake.magnitude = properties.value("mag").toDouble();
+        earthquake.time = QDateTime::fromMSecsSinceEpoch(properties.value("time").toInteger());
+        earthquake.url = properties.value("url").toString();
+
+        if (coordinates.size() >= 3) {
+            earthquake.longitude = coordinates.at(0).toDouble();
+            earthquake.latitude = coordinates.at(1).toDouble();
+            earthquake.depth = coordinates.at(2).toDouble();
+        }
+
+        earthquakes.append(earthquake);
+    }
+
+    return earthquakes;
 }

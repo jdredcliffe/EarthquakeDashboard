@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QJsonArray>
 #include <QList>
 #include <QNetworkAccessManager>
 #include <QObject>
@@ -23,6 +24,7 @@ signals:
 
 private:
     void handleReply(QNetworkReply *reply);
+    QList<Earthquake> parse(const QJsonArray &features);
 
     QNetworkAccessManager m_network;
 };
