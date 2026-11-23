@@ -12,6 +12,8 @@ qt_standard_project_setup(REQUIRES 6.5)
 qt_add_executable(appEarthquakeDashboard
     main.cpp
     earthquake.h
+    earthquakeclient.h
+    earthquakeclient.cpp
 )
 
 qt_add_qml_module(appEarthquakeDashboard
